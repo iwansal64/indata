@@ -1,44 +1,23 @@
-"use server";
-import { connect_with_prisma, must_login } from "../server-utils";
+import { Suspense } from "react";
 import styles from "./cluster.module.css";
+import UserClusters from "./clusters-container";
+import { Metadata } from "next";
+import { connect_with_prisma } from "../server-utils";
+import NavigationLink from "../navigation_link";
+
+export const metadata: Metadata = {
+    title: "Clusters : Dashboard",
+};
 
 export default async function Clusters() {
-    const prisma = await connect_with_prisma();
-    const { id } = await must_login();
-
-    const results = await prisma.cluster.findMany({
-        where: {
-            OR: [
-                {
-                    creator_id: id,
-                },
-                {
-                    users: {
-                        every: {
-                            user: {
-                                id: id,
-                            },
-                        },
-                    },
-                },
-            ],
-        },
-    });
-
     return (
         <>
-            <div className={styles.sclusters}>
-                {results ? (
-                    results.map((value, index) => {
-                        return (
-                            <div className={styles.cluster} key={index}>
-                                <h1>{value.cluster_name}</h1>
-                            </div>
-                        );
-                    })
-                ) : (
-                    <h1>{"You Don't Have Any Clusters Yet"}</h1>
-                )}
+            <div className={styles.clusters}>
+                <Suspense fallback={<h1>Please wait while fetching the data..</h1>}>
+                    <div className="clusters">
+                        <UserClusters />
+                    </div>
+                </Suspense>
             </div>
         </>
     );
