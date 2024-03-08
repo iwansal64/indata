@@ -1,13 +1,14 @@
 import { check_authorization, connect_with_prisma } from "@/app/server-utils";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     if (!(await check_authorization(request.headers))) {
         return new Response("Unauthorized Request!", {
             status: 401,
         });
     }
 
-    const user_data_params = Object.fromEntries(new URL(request.url).searchParams.entries());
+    const user_data_params = Object.fromEntries(request.nextUrl.searchParams.entries());
     console.log(user_data_params);
     const prisma = await connect_with_prisma();
 

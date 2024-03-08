@@ -1,5 +1,8 @@
 "use client";
 
+import { user } from "@prisma/client";
+import { set_cookies } from "./server-utils";
+
 export function show_message({
     message,
     delay = 0,
@@ -61,31 +64,29 @@ export function fix_autocomplete_inputs() {
 }
 
 export async function validate_data(user_data: user) {
-    const prisma = await connect_with_prisma();
+    const response = await fetch(
+        "/api/users/?name=" + user_data.name + "&email=" + user_data.email,
+        {
+            headers: {
+                authorization: "9cuy92y1vcunc901",
+            },
+        }
+    );
+    let user_result = await response.json();
 
-    // Get user data from account info
-    const user_result = await prisma.user.findFirst({
-        where: {
-            OR: [
-                {
-                    name: user_data.name,
-                },
-                {
-                    email: user_data.email,
-                },
-            ],
-        },
-    });
+    if (user_result["total"] == 0) {
+        return false;
+    }
+
+    user_result = user_result["results"][0];
 
     // Check if the password is correct
     if (user_result?.pass == user_data.pass) {
-        const cookies = require("next/headers");
-        const user_cookies = cookies();
-
-        user_cookies.set("indata-user-info", `${user_result.name}:${user_result.pass}`);
-
+        set_cookies("indata-user-info", `${user_result.name}:${user_result.pass}`);
         return true;
     } else {
         return false;
     }
 }
+
+export const user_api_url = "/api/users";

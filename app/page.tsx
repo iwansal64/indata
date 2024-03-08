@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-    const user_data = await must_login();
+    must_login().then((user_data) => {});
 
     return (
         <>

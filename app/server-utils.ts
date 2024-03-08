@@ -1,4 +1,6 @@
+"use server";
 import { PrismaClient, user } from "@prisma/client";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export type SearchParams = { [key: string]: string | string[] | undefined };
@@ -19,7 +21,6 @@ export async function must_login() {
 }
 
 export async function get_user_login_info() {
-    const cookies = require("next/headers");
     const user_cookies = cookies();
     const user_login_info = user_cookies.get("indata-user-info")?.value;
     if (!user_login_info || !user_login_info.includes(":")) {
@@ -48,4 +49,9 @@ export async function check_authorization(request_headers: Headers) {
     } else {
         return false;
     }
+}
+
+export async function set_cookies(name: string, value: string) {
+    const user_cookies = cookies();
+    user_cookies.set(name, value);
 }

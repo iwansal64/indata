@@ -47,7 +47,7 @@ export default function SubmitGate() {
 
         if (await validate_data(user_data)) {
             show_message({
-                message: "Wrong account / password",
+                message: "You'll be redirected in second..",
                 delay: 2000,
                 after_done_function: () => {
                     router.push("/");
