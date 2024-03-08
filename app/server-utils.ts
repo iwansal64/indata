@@ -40,3 +40,12 @@ export async function get_user_login_info() {
 
     return result;
 }
+
+export async function check_authorization(request_headers: Headers) {
+    const authorization = request_headers.get("authorization");
+    if (authorization && authorization == "9cuy92y1vcunc901") {
+        return true;
+    } else {
+        return false;
+    }
+}

@@ -1,5 +1,5 @@
 import "./globals.css";
-import MessageContainer from "./message_container";
+import MessageContainer from "./message-container";
 import FixAutocomplete from "./fix_autocomplete";
 
 export default function RootLayout({
