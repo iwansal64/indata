@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import styles from "./page.module.css";
 import Link from "next/link";
-import { must_login } from "./server_utils";
+import { must_login } from "./server-utils";
 
 export const metadata: Metadata = {
     title: "INDATA: NextGen Data Management",

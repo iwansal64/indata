@@ -1,7 +1,7 @@
 "use client";
-import { show_message } from "@/app/client_utils";
+import { show_message } from "@/app/client-utils";
 import styles from "./login.module.css";
-import { validate_data } from "@/app/server_utils";
+import { validate_data } from "@/app/client-utils";
 import { user } from "@prisma/client";
 import { useRouter } from "next/navigation";
 

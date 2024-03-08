@@ -1,7 +1,7 @@
 import styles from "./login.module.css";
 import { Metadata } from "next";
-import { connect_with_prisma, type SearchParams } from "@/app/server_utils";
-import ChangeGateBtn from "./change_gate";
+import { connect_with_prisma, type SearchParams } from "@/app/server-utils";
+import ChangeGateBtn from "./change-gate";
 import SubmitGate from "./submit_gate";
 
 export const metadata: Metadata = {

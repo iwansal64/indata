@@ -1,5 +1,5 @@
 "use server";
-import { connect_with_prisma, must_login } from "../server_utils";
+import { connect_with_prisma, must_login } from "../server-utils";
 import styles from "./cluster.module.css";
 
 export default async function Clusters() {

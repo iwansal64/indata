@@ -59,3 +59,33 @@ export function fix_autocomplete_inputs() {
         });
     });
 }
+
+export async function validate_data(user_data: user) {
+    const prisma = await connect_with_prisma();
+
+    // Get user data from account info
+    const user_result = await prisma.user.findFirst({
+        where: {
+            OR: [
+                {
+                    name: user_data.name,
+                },
+                {
+                    email: user_data.email,
+                },
+            ],
+        },
+    });
+
+    // Check if the password is correct
+    if (user_result?.pass == user_data.pass) {
+        const cookies = require("next/headers");
+        const user_cookies = cookies();
+
+        user_cookies.set("indata-user-info", `${user_result.name}:${user_result.pass}`);
+
+        return true;
+    } else {
+        return false;
+    }
+}
