@@ -1,6 +1,6 @@
 import styles from "./login.module.css";
 import { Metadata } from "next";
-import type { SearchParams } from "@/app/server_utils";
+import { connect_with_prisma, type SearchParams } from "@/app/server_utils";
 import ChangeGateBtn from "./change_gate";
 import SubmitGate from "./submit_gate";
 

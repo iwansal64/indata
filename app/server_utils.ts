@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-import { cookies } from "next/headers";
+import { PrismaClient, user } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 export type SearchParams = { [key: string]: string | string[] | undefined };
@@ -20,24 +19,18 @@ export async function must_login() {
 }
 
 export async function get_user_login_info() {
+    const cookies = require("next/headers");
     const user_cookies = cookies();
     const user_login_info = user_cookies.get("indata-user-info")?.value;
     if (!user_login_info || !user_login_info.includes(":")) {
         return false;
     }
-    const [account, password] = user_login_info.split(":");
+    const [name, password] = user_login_info.split(":");
 
     const prisma = await connect_with_prisma();
     const result = await prisma.user.findFirst({
         where: {
-            OR: [
-                {
-                    name: account,
-                },
-                {
-                    email: account,
-                },
-            ],
+            name,
         },
     });
 
@@ -47,5 +40,3 @@ export async function get_user_login_info() {
 
     return result;
 }
-
-export async function validate_data() {}

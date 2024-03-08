@@ -1,6 +1,14 @@
 "use client";
 
-export function show_message({ message, delay = 0 }: { message: string; delay: number }) {
+export function show_message({
+    message,
+    delay = 0,
+    after_done_function: after_delay_function = () => {},
+}: {
+    message: string;
+    delay?: number;
+    after_done_function?: Function;
+}) {
     const message_container = document.getElementsByClassName("message-container")[0];
     const text_container = document.querySelector("div.message-container > h1");
 
@@ -14,10 +22,12 @@ export function show_message({ message, delay = 0 }: { message: string; delay: n
     if (delay) {
         setTimeout(() => {
             message_container.classList.remove("active");
+            after_delay_function();
         }, delay);
     } else {
         return () => {
             message_container.classList.remove("active");
+            after_delay_function();
         };
     }
 
