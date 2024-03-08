@@ -71,3 +71,14 @@ button {
     left: 10px;
     transform: translateX(0);
 }
+
+.navigation_link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.default_wrapper {
+    margin-top: 60px;
+    margin-left: 20px;
+}

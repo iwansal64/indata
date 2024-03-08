@@ -3,7 +3,7 @@ import styles from "./cluster.module.css";
 import UserClusters from "./clusters-container";
 import { Metadata } from "next";
 import { connect_with_prisma } from "../server-utils";
-import NavigationLink from "../navigation_link";
+import BreadCrumbs from "../breadcrumbs";
 
 export const metadata: Metadata = {
     title: "Clusters : Dashboard",
