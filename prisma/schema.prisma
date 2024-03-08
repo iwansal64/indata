@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id              String              @id @default(auto()) @map("_id") @db.ObjectId
+  name            String              @unique
+  pass            String
+  email           String              @unique
+  owned_clusters  cluster[]           @relation("owner_to_cluster")
+  joined_clusters users_in_clusters[] @relation("user_of_clusters")
+}
+
+model cluster {
+  id           String              @id @default(auto()) @map("_id") @db.ObjectId
+  cluster_name String
+  cluster_code String              @default("")
+  cluster_desc String              @default("")
+  max_users    Int                 @default(0)
+  creator      user?               @relation("owner_to_cluster", fields: [creator_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  creator_id   String?             @db.ObjectId
+  users        users_in_clusters[] @relation("cluster_of_users")
+}
+
+model users_in_clusters {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  user        user?    @relation("user_of_clusters", fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user_id     String?  @db.ObjectId
+  cluster     cluster? @relation("cluster_of_users", fields: [cluster_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  cluster_id  String?  @db.ObjectId
+  joined_date DateTime @default(now())
+}
