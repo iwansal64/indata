@@ -1,11 +1,11 @@
 "use client";
-import { show_message } from "@/app/client-utils";
+import { add_user, show_message } from "@/app/client-utils";
 import styles from "./login.module.css";
 import { validate_data } from "@/app/client-utils";
 import { user } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
-export default function SubmitGate() {
+export default function SubmitGate({ gate_type }: { gate_type: string }) {
     const router = useRouter();
     const handle_submit = async () => {
         let error = "";
@@ -45,16 +45,32 @@ export default function SubmitGate() {
             id: "",
         };
 
-        if (await validate_data(user_data)) {
-            show_message({
-                message: "You'll be redirected in second..",
-                delay: 2000,
-                after_done_function: () => {
-                    router.push("/");
-                },
-            });
+        console.log(gate_type);
+
+        if (gate_type == "login") {
+            if (await validate_data(user_data)) {
+                show_message({
+                    message: "You'll be redirected in second..",
+                    delay: 2000,
+                    after_done_function: () => {
+                        router.push("/");
+                    },
+                });
+            } else {
+                show_message({ message: "Wrong account / password", delay: 2000 });
+            }
         } else {
-            show_message({ message: "Wrong account / password", delay: 2000 });
+            const result = await add_user(user_data);
+
+            show_message({
+                message: result["message"],
+                delay: 2000,
+                after_done_function: result["success"]
+                    ? () => {
+                          router.push("./?gate_type=login");
+                      }
+                    : () => {},
+            });
         }
     };
 

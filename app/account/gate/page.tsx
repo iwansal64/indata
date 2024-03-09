@@ -10,9 +10,11 @@ export const metadata: Metadata = {
 
 export default async function Login({ searchParams }: { searchParams: SearchParams }) {
     let gate_type: string | string[] | undefined = "login";
-    if (searchParams) {
+    if (searchParams["gate_type"]) {
         gate_type = searchParams["gate_type"];
     }
+
+    console.log(gate_type);
 
     return (
         <>
@@ -75,7 +77,7 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
                         target_gate={gate_type == "login" ? "signin" : "login"}
                         text={gate_type == "login" ? "Sign In" : "Log In"}
                     />
-                    <SubmitGate />
+                    <SubmitGate gate_type={typeof gate_type == "string" ? gate_type : "login"} />
                 </form>
             </div>
         </>

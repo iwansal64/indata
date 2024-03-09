@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import styles from "./cluster.module.css";
 import UserClusters from "./clusters-container";
 import { Metadata } from "next";
-import { connect_with_prisma } from "../server-utils";
+import { connect_with_prisma, must_login } from "../server-utils";
 import BreadCrumbs from "../breadcrumbs";
 
 export const metadata: Metadata = {

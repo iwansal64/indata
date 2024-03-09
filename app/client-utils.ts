@@ -72,6 +72,13 @@ export async function validate_data(user_data: user) {
             },
         }
     );
+
+    if (!response.ok) {
+        throw new Error(
+            "ERROR WHEN TRYING TO VALIDATE DATA HAS OCCURED; status-text:" + response.statusText
+        );
+    }
+
     let user_result = await response.json();
 
     if (user_result["total"] == 0) {
@@ -87,6 +94,33 @@ export async function validate_data(user_data: user) {
     } else {
         return false;
     }
+}
+
+export async function add_user(user_data: user) {
+    const response = await fetch("/api/users/", {
+        method: "POST",
+        body: JSON.stringify({
+            new_data: user_data,
+        }),
+        headers: {
+            authorization: "9cuy92y1vcunc901",
+        },
+    });
+
+    if (!response.ok) {
+        return {
+            success: false,
+            message: response.statusText,
+        };
+    }
+
+    const results = await response.json();
+
+    return {
+        success: true,
+        message: "Successfully register the user!",
+        results: results,
+    };
 }
 
 export const user_api_url = "/api/users";
