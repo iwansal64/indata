@@ -1,6 +1,6 @@
 import styles from "./login.module.css";
 import { Metadata } from "next";
-import { connect_with_prisma, type SearchParams } from "@/app/server-utils";
+import { type SearchParams } from "@/app/server-utils";
 import ChangeGateBtn from "./change-gate";
 import SubmitGate from "./submit-gate";
 
@@ -13,8 +13,6 @@ export default async function Login({ searchParams }: { searchParams: SearchPara
     if (searchParams["gate_type"]) {
         gate_type = searchParams["gate_type"];
     }
-
-    console.log(gate_type);
 
     return (
         <>
