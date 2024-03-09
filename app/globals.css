@@ -82,3 +82,41 @@ button {
     margin-top: 60px;
     margin-left: 20px;
 }
+
+nav {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid white;
+    width: 90vw;
+    height: fit-content;
+    padding: 20px 20px;
+    border-radius: 10px;
+
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav > a {
+    background-color: transparent;
+    color: #eee;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+    height: fit-content;
+}
+
+nav > a:hover {
+    background-color: #aaa;
+    color: #222;
+}
+
+nav > .logo {
+    margin-right: 20px;
+}

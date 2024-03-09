@@ -1,9 +1,6 @@
 import { Metadata } from "next";
 import styles from "./page.module.css";
-import Link from "next/link";
-import { must_login } from "./server-utils";
-import { Suspense } from "react";
-import { MustLogin } from "./must-login-component";
+import NavBar from "./navbar";
 
 export const metadata: Metadata = {
     title: "INDATA: NextGen Data Management",
@@ -12,12 +9,7 @@ export const metadata: Metadata = {
 export default async function Home() {
     return (
         <>
-            <Link href="clusters" className={styles.cluster}>
-                Clusters
-            </Link>
-            <Suspense>
-                <MustLogin />
-            </Suspense>
+            <NavBar />
         </>
     );
 }
