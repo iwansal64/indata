@@ -14,7 +14,7 @@ export async function connect_with_prisma() {
 export async function must_login() {
     const login_info = await get_user_login_info();
     if (!login_info) {
-        redirect("/login");
+        redirect("/account/gate");
     }
 
     return login_info;
