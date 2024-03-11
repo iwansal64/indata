@@ -1,6 +1,6 @@
 "use server";
 import { PrismaClient, user } from "@prisma/client";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export type SearchParams = { [key: string]: string | string[] | undefined };
@@ -13,6 +13,14 @@ export async function connect_with_prisma() {
 
 export async function must_login() {
     const login_info = await get_user_login_info();
+    const header = headers();
+    const full_pathname = header.get("referer") || "";
+
+    console.log(full_pathname.includes("account/gate"));
+    if (full_pathname.includes("account/gate")) {
+        return false;
+    }
+
     if (!login_info) {
         redirect("/account/gate");
     }
